@@ -1,3 +1,6 @@
+gsap.config({
+  nullTargetWarn: false,
+});
 let controller;
 let slideScene;
 let pageScene;
@@ -37,9 +40,9 @@ function animateSlides() {
     //New Animation
     const pageTl = gsap.timeline();
     let nextSlide = slides.length - 1 === index ? "end" : slides[index + 1];
-    pageTl.fromTo(nextSlide, { y: "0%" }, { y: "70%" });
-    pageTl.fromTo(slide, { opacity: 1, scale: 1 }, { opacity: 0, scale: 0.5 });
-    pageTl.fromTo(nextSlide, { y: "70%" }, { y: "0%" }, "-=0.5");
+    pageTl.fromTo(nextSlide, { y: "0%" }, { y: "45%" });
+    pageTl.fromTo(slide, { opacity: 1, scale: 1 }, { opacity: 0, scale: 0 });
+    pageTl.fromTo(nextSlide, { y: "45%" }, { y: "0%" }, "-=0.5");
     //Create a new scene
     pageScene = new ScrollMagic.Scene({
       triggerElement: slide,
@@ -57,4 +60,19 @@ function animateSlides() {
       .addTo(controller);
   });
 }
+function cursor(e) {
+  let mouse = document.querySelector(".cursor");
+  mouse.style.top = e.pageY + "px";
+  mouse.style.left = e.pageX + "px";
+}
+function activeCursor(e) {
+  const item = e.target;
+  if (item.id === "logo" || item.classList.contains("burger")) {
+    mouse.classList.add("nav-active");
+  } else {
+    mouse.classList.remove("nav-active");
+  }
+}
+window.addEventListener("mousemove", cursor);
+window.addEventListener("mouseover", activeCursor);
 animateSlides();
